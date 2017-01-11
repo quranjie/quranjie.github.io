@@ -1,5 +1,6 @@
 # Dependencies
 markdown:         kramdown
+highlighter:      pygments
 
 # Setup
 title:            冉杰的博客

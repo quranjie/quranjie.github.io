@@ -1,6 +1,5 @@
 # Dependencies
 markdown:         kramdown
-highlighter:      rouge
 
 # Setup
 title:            冉杰的博客

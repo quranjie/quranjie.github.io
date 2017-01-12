@@ -17,10 +17,18 @@
       <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.baseurl }}">主页</a>
 
       {% comment %}
-        The code below dynamically generates a sidebar nav of pages with
-        `layout: page` in the front-matter. See readme for usage.
+        本来可以通过循环遍历的方式动态加载根目录下的所有页面，但是这样无法控制顺序，所以就写死在这儿
       {% endcomment %}
 
+      <a class="sidebar-nav-item{% if page.url == '/categories/' %} active{% endif %}" href="{{ site.baseurl }}categories/">分类</a>
+
+      <a class="sidebar-nav-item{% if page.url == '/tags/' %} active{% endif %}" href="{{ site.baseurl }}tags/">标签</a>
+
+      <a class="sidebar-nav-item{% if page.url == '/resume/' %} active{% endif %}" href="{{ site.baseurl }}resume/">我的简历</a>
+
+      <a class="sidebar-nav-item{% if page.url == '/about/' %} active{% endif %}" href="{{ site.baseurl }}about/">关于</a>
+
+      <!-- 
       {% assign pages_list = site.pages %}
       {% for node in pages_list %}
         {% if node.title != null %}
@@ -28,7 +36,8 @@
             <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
           {% endif %}
         {% endif %}
-      {% endfor %}
+      {% endfor %} 
+      -->
 
       <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub项目</a>
     </nav>

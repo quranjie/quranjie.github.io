@@ -3,38 +3,222 @@ layout: page
 title: github命令总结
 ---
 
-<span class="post-date">1 Jan 2017</span>
+<span class="post-date">2 Jan 2017</span>
 <p class="message">
-  这是我的第一篇博客，想写的有很多。就从我如何搭建博客开始吧！我是使用Jekyll搭建的，Jekyll是一个简单的免费Blog生成工具，类似WordPress。但是他们又有很大的不同，原因是Jekyll知识一个生成静态网页的工具，不需要数据库支持。目前也有很多人使用Hexo搭建博客，感觉两种方式都很不错。
+  算上实习工作已经4年了，中间也在各种平台上断断续续的写了一些博客，但都没有形成习惯。我大概分析了一下，我写的东西都不是给别人看的，只是单纯的为了记述当时的学习过程，叫做笔记更合适。我非常不屑于那些为了给别人看，事无巨细的长篇大论。如果你能完全读懂我写的内容，说明你很厉害，因为我只会记录那些我认为重要的东西。
 </p>
 
-在github上搭建博客，首先要有自己的账号，不多说。
+## git和github
 
-1、首先创建页面仓库，这个仓库的名字需要和你的账号对应，如quranjie.github.io，输入基本信息然后点击创建仓库。
-<img class="center-img width-600" src="./assets/create_blog_on_github_01.png" alt="Create a new repository" />
+git是一个分布式的版本控制系统，用作Linux内核代码的管理。github可以托管各种git库，并提供一个web界面，github的独特卖点在于从另外一个项目进行分支的简易性。为一个项目贡献代码非常简单：首先点击项目站点的“fork”按钮，然后将代码检出并将修改加入到刚才分出的代码库中，最后通过内建的“pull request”机制向项目负责人申请代码合并。
 
-2、去[Jekyll官网](http://jekyllthemes.org)下载一个合适的主题，拷贝到项目根目录，提交到github上，在浏览器上输入https://quranjie.github.io就可以看到效果啦。
+使用github可以有很多方式，在mac和windows上都有客户端，有兴趣可以自己了解。在此我只讲如何使用命令行操作，如果能熟练使用命令行，是非常炫酷的事。
 
-3、如果想要在本地看效果和调试，就需要使用[Bundler](https://github.com/bundler/bundler)了，安装Bundler的步骤如下：
-
-* 先检查ruby的版本，要求ruby版本高于2.1.0。在控制台执行命令  
-  ```ruby --version```
-* 安装Bundler  
-  ```gem install bundler```
-* 然后进入项目根目录，需要有一个Gemfile的文件，没有则创建。里面的内容为：  
+## 配置git
 
 ```
-  source ‘https://rubygems.org’  
-  gem ‘github-pages’, group::jekyll_plugins
+git config —global user.name “xxx”
+git config —global user.email “xxx”	
+git config —list	查看配置列表
 ```
-* 然后执行  
-```bundle install```
-* 现在就可以在本地运行jekyll站点了  
-```bundle exec Jekyll serve```  
+配置 sshkey ： 上传代码时使用这个 sshkey 来确认是否有上传权限   
 
-可以看到运行成功提示，服务器地址```http://127.0.0.1:4000/```
+* 创建本地 ssh ： ssh-keygen -t rsa -C "Github 的注册邮箱"
+* 在 Github 中添加这个 sshkey ：   
+        复制windows环境下```C:\Documents and Settings\Administrator\\.ssh\id_rsa.pub```，linux环境下```~/.ssh/id_rsa.pub```文件中的内容；  
+        登录 Github --> Account Setting  --> SSH-KEY --> Add SSH-KEY --> 粘贴id_rsa.pub中的内容；  
+* 验证： ssh -T git@github.com
+        出现 Hi xxx! You've successfully authenticated, but GitHub does not provide shell access. 说明配置成功，可以连接上 Github
 
-本文的[参考网址](https://help.github.com/articles/using-jekyll-as-a-static-site-generator-with-github-pages/
-)
+## 去掉git push时输入账号密码
 
-<p class="next-post">下一篇我将详细的讲讲github命令</p>
+* 在~/目录下，touch创建文件.git-credentials，用vim编辑此文件：  
+```vim .git-credentials```  
+输入内容：  
+```https://{username}:{password}@github.com```   
+* 在终端下执行：  
+```git config —global credential.helper store```  
+可以看到~/.gitconfig文件，会多了一项：  
+```[credential]```  
+```helper=store```  
+
+这时候就不需要输入密码了  
+
+## 常用基本命令
+```  
+# git init 
+本地初始化仓库，它会创建一个隐藏的文件夹.git  
+
+# git clone 地址		
+从网络上拷贝仓库到本地，这样直接clone别人的仓库，不能push自己的修改内容 
+
+# git status	
+查看当前仓库的状态。碰到问题不知道怎么办时，可通过它给出的提示解决问题 
+
+# git diff	
+查看当前状态和最新的commit之间不同的地方，如git diff readme.txt
+
+# git add -A 	
+在commit之前要先add，add后面也可以直接跟具体文件
+
+# git commit -m "提交信息"	提交信息最好体现更改了什么
+
+# git rm xxx      从本地仓库中删除指定文件
+# git rm -r xxx   从本地仓库中删除指定文件夹
+
+# git clean -xf	
+删除当前目录下所有没有track过的文件。不管它是否是.gitignore文件里面指定的文件夹和文件
+
+# git checkout 	如果只想把某个文件内容还原，后面跟文件名即可
+
+# git log		查看当前版本及之前的commit记录
+
+# git reset --hard 版本号		
+回退到指定版本，该版本之后的修改都被删除。如果要回退到最新版本，执行git reflog
+
+# git remote add origin 地址		
+如果你还没有克隆现有仓库，并欲将你的仓库连接到某个远程服务器
+
+# git push -u origin master		
+将本地仓库上传至github仓库并进行关联
+
+# git pull		
+在本地版本低于远程仓库版本时，获取远程仓库的commit
+```
+
+## 如何创建自己的分支
+```
+# 分支的创建和合并
+# git branch yourbranch 
+# git checkout yourbranch    切换到yourbranch
+
+# 查看当前分支的情况（会列出改仓库中所有的分支，当前的分支前有星号）  
+# git branch  
+
+# 开发yourbranch分支，然后开发之后与master分支合并
+
+# git checkout master
+# git merge yourbranch
+# git branch -d yourbranch    合并完后删除本地分支
+```
+
+## 如何将牛人的远程分支更新到自己的本地分支？
+```
+# 查看当前项目下远程
+# git remote
+# 增加新的分支链接，例如
+git remote add niuren giturl
+# 获取牛人的远程更新
+git fetch niuren
+# 将牛人的远程更新合并到本地分支
+git merge niuren/master
+```
+
+## 团队合作开发
+* 零、前期准备  
+首先把队友直接push的权限关掉，即设置成Read。这样可以防止队友误操作，未经审核就把代码push到团队项目上。  
+在项目的setting下，左侧options下面有Collaborators& teams
+
+* 一、创建开发分支
+master分支一般用来发布稳定版本，dev分支（开发分支）用来发布开发版本。  
+输入分支名称后，下面会跳出Create branch，点击即可创建。
+
+* 二、Fork项目到个人的仓库
+
+* 三、Clone项目到本地
+```git clone 地址```  
+此时使用```git branch```命令查看本地分支，只能看到master分支  
+使用```git branch -a```查看所有分支，就能看到远程分支  
+根据远程分支，我们可以创建一个新的本地分支dev，并把该项目的dev分支的内容放到本地dev分支。  
+```git checkout -b dev origin/dev```  
+意思是，创建一个dev分支(-b)，并把远程dev分支(origin/dev)的内容放在该分支内。接着切换到该分支(checkout)  
+```git checkout master```
+
+* 四、和团队项目保持同步  
+1、首先查看有没有设置upstream，使用```git remote -v```命令来查看  
+如果没有显示upstream，使用```git remote add upstream 团队项目地址```命令  
+接着再次使用```git remote -v```，显示出了upstream，那么就设置好了  
+2、开始同步。首先执行```git fetch upstream```获取团队项目最新版本  
+此时并没有把最新版本合并到你本地的分支上，因此还需要一步。  
+3、当前分支是dev分支，执行```git merge upstream/dev```命令后，会将源分支（upstream/dev）合并到当前分支（dev）  
+
+* 五、push修改到自己的项目上  
+push时可能会遇到merge冲突问题，可以手动解决也可借助于工具，在此不多说。  
+解决冲突后，就可以使用```git push```将本地的修改同步到自己的github仓库了。  
+
+* 六、请求合并到团队项目上  
+首先到你的GitHub上，进入你Fork的仓库里。点击红框处的Pull request  
+选择要合并到哪个分支，点击Create pull request就可以发送合并请求了。
+
+* 七、团队项目负责人审核及同意合并请求  
+
+## .gitignore文件
+告诉git忽略哪些文件，一般我们写完代码后会执行编译、调试等操作，会产生很多中间文件和可执行文件，这些都不是代码文件，不需要git来管理。在该文件中可以直接写目录名，可以写带后缀的文件类型，如：
+
+```
+bin
+*.class
+# 忽略所有以.a为后缀的文件
+*.a
+# 但是lib.a这个文件除外，依然会被提交
+!lib.a
+build/*.txt
+git.c
+```
+如想把git.c文件也提交上去，可以这样强制添加文件：  
+```git add -f git.c```  
+然后重新提交一次：```git commit —amend```  
+
+## 标签  
+标签tag用来指向开发中一个关键时期，这样以后回顾起来比较方便。如给最近一次提交的记录打个标签：  
+```git tag v1.0```   
+查看所有已有标签:  
+```git tag```  
+查看此标签的详细信息：  
+```git show v1.0```   
+还可以创建带有说明的标签，用-a指定标签名，-m指定说明文字：  
+```git tag v1.2 -m “version 1.2 released” d316fb```  
+删除标签  
+```git tag -d v1.0```  
+
+## 历史记录
+```git log```  
+如果只想看最近几条记录，可以这样操作：  
+```git log -2```  
+我们也常用-p参数来展开显示每次提交的内容差异，例如仅查看最近一次的差异：  
+```git log -p -l```  
+还可以使用- -stat参数来简要显示数据增改行数，如：  
+```git log —stat -2```  
+还有一个超级常用的- -pretty参数，可以根据不同的格式为我们展示提交的历史信息，如每行显示一条提交记录  
+```git log —pretty=oneline```  
+以更详细的模式输出提交的历史记录：  
+```git log —pretty=fuller -2```  
+还可以使用format参数来指定具体的输出格式，方便提取分析：  
+%s	提交说明  
+%cd	提交日期  
+%an	作者的名字  
+%cn	提交者的姓名  
+%ce	提交这的电子邮件  
+%ad	作者的修订时间  
+
+## 将低版本push到github(删掉高版本commit)  
+有时候会因为各种原因，想要回退版本。解决方法就是：  
+
+```
+# 先用reset回到你想要的版本
+# git reset --hard 版本号
+
+# git push --force
+```
+当然，一般是推荐用```git push origin HEAD --force```的，能防止因为其他没配置好而产生错误。
+
+### 我曾经遇到过的问题
+在MAC上无法连上github，提示unknown host，我是这么解决的：  
+
+```
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
+sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
+```
+
+本文参考[网址](http://www.cnblogs.com/schaepher/p/5561193.html)
+<p class="next-post">下一篇我想总结一下VIM的使用</p>

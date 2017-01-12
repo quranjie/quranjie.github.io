@@ -4,6 +4,7 @@ highlighter:      rouge
 
 # Setup
 title:            冉杰的博客
+nickname:		  风淋天下
 description:      '一个程序员的自我修炼之路'
 url:              http://quranjie.github.io
 baseurl:          /
@@ -12,7 +13,10 @@ author:
   name:           'ranjie'
   url:            https://github.com/quranjie
 
-paginate:         5
+paginate:         10
+
+# Gems
+gems: [jekyll-paginate]
 
 # Custom vars
 version:          1.0.0

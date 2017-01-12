@@ -1,5 +1,9 @@
 <div class="sidebar">
   <div class="container sidebar-sticky">
+    <div class="profile-container">
+      <img class="profile-img" src="{{ site.baseurl }}assets/profile.png" alt="profile picture" />
+      <h1 class="nickname">{{ site.nickname }}</h1>
+    </div>
     <div class="sidebar-about">
       <h2>
         <a href="{{ site.baseurl }}">
@@ -26,10 +30,6 @@
         {% endif %}
       {% endfor %}
 
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}">Android</a>
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}">IOS</a>
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}">前端</a>
-      <a class="sidebar-nav-item" href="{{ site.github.repo }}">后端</a>
       <a class="sidebar-nav-item" href="{{ site.github.repo }}">GitHub项目</a>
     </nav>
 

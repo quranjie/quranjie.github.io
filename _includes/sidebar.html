@@ -20,9 +20,9 @@
         本来可以通过循环遍历的方式动态加载根目录下的所有页面，但是这样无法控制顺序，所以就写死在这儿
       {% endcomment %}
 
-      <a class="sidebar-nav-item{% if page.url == '/categories/' %} active{% endif %}" href="{{ site.baseurl }}categories/">分类</a>
+      <a class="sidebar-nav-item{% if page.url == '/categories/' %} active{% endif %}" href="{{ site.baseurl }}categories/">分类列表</a>
 
-      <a class="sidebar-nav-item{% if page.url == '/tags/' %} active{% endif %}" href="{{ site.baseurl }}tags/">标签</a>
+      <a class="sidebar-nav-item{% if page.url == '/tags/' %} active{% endif %}" href="{{ site.baseurl }}tags/">标签云</a>
 
       <a class="sidebar-nav-item{% if page.url == '/resume/' %} active{% endif %}" href="{{ site.baseurl }}resume/">我的简历</a>
 
